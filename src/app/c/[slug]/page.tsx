@@ -29,11 +29,11 @@ export default async function PublicCampaignPage({
         <main className="flex-1 max-w-md w-full mx-auto p-4 md:p-6 pt-8 md:pt-16 flex flex-col items-center">
           <div className="w-full text-center">
             <div className="mb-6">
-              <div className="w-20 h-20 mx-auto rounded-full bg-[#CBD5E1] flex items-center justify-center">
-                <span className="text-3xl">🎉</span>
+              <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full bg-[#CBD5E1] flex items-center justify-center">
+                <span className="text-2xl sm:text-3xl">🎉</span>
               </div>
             </div>
-            <h1 className="text-2xl font-bold text-[#0F172A] font-headline mb-2">
+            <h1 className="text-xl sm:text-2xl font-bold text-[#0F172A] font-headline mb-2">
               This campaign has ended
             </h1>
             <p className="text-sm text-[#64748B] font-small">
@@ -68,38 +68,38 @@ export default async function PublicCampaignPage({
         
         {/* Banner (Premium Only) */}
         {isPremium && campaign.banner_url && (
-          <div className="w-full mb-6">
+          <div className="w-full mb-4 md:mb-6">
             <img 
               src={campaign.banner_url} 
               alt="Campaign banner"
-              className="w-full h-32 md:h-48 object-cover rounded-3xl shadow-lg"
+              className="w-full h-24 md:h-32 lg:h-48 object-cover rounded-2xl md:rounded-3xl shadow-lg"
             />
           </div>
         )}
 
         {/* Profile Section - Circular Logo */}
-        <div className="w-full mb-6 text-center">
-          <div className="relative inline-block mb-4">
+        <div className="w-full mb-4 md:mb-6 text-center">
+          <div className="relative inline-block mb-3 md:mb-4">
             {campaign.logo_url ? (
               <img 
                 src={campaign.logo_url} 
                 alt={campaign.name}
-                className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-xl"
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-white shadow-xl"
               />
             ) : (
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#FF2A54] to-[#FF6B8E] flex items-center justify-center border-4 border-white shadow-xl">
-                <span className="text-4xl font-bold text-white font-headline">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-[#FF2A54] to-[#FF6B8E] flex items-center justify-center border-4 border-white shadow-xl">
+                <span className="text-3xl sm:text-4xl font-bold text-white font-headline">
                   {campaign.name.charAt(0).toUpperCase()}
                 </span>
               </div>
             )}
           </div>
           
-          <div className="space-y-2">
-            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-[#0F172A] font-headline">
+          <div className="space-y-1 md:space-y-2">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-[#0F172A] font-headline">
               @{campaign.slug}
             </h1>
-            <p className="text-base text-[#64748B] font-small">
+            <p className="text-sm md:text-base text-[#64748B] font-small">
               {campaign.name}
             </p>
             <div className="inline-flex items-center rounded-full border border-[#FF2A54]/20 bg-[#FF2A54]/10 px-3 py-1 text-xs font-semibold text-[#FF2A54] font-small">
@@ -109,7 +109,7 @@ export default async function PublicCampaignPage({
         </div>
 
         {/* Description */}
-        <div className="w-full mb-6 text-center">
+        <div className="w-full mb-4 md:mb-6 text-center">
           <p className="text-sm text-[#64748B] font-small leading-relaxed">
             {campaign.description}
           </p>
@@ -117,9 +117,9 @@ export default async function PublicCampaignPage({
 
         {/* Countdown */}
         {campaign.launch_date && (
-          <div className="w-full mb-6">
-            <div className="bg-white rounded-2xl p-5 shadow-sm border border-[#CBD5E1]">
-              <h3 className="text-xs font-semibold text-[#64748B] uppercase tracking-wider text-center mb-3 font-small">
+          <div className="w-full mb-4 md:mb-6">
+            <div className="bg-white rounded-2xl p-4 md:p-5 shadow-sm border border-[#CBD5E1]">
+              <h3 className="text-xs font-semibold text-[#64748B] uppercase tracking-wider text-center mb-2 md:mb-3 font-small">
                 Launching In
               </h3>
               <Countdown launchDate={campaign.launch_date} />
@@ -128,7 +128,7 @@ export default async function PublicCampaignPage({
         )}
 
         {/* Signup Form */}
-        <div className="w-full mb-6">
+        <div className="w-full mb-4 md:mb-6">
           <SignupForm 
             campaignId={campaign.id} 
             campaignSlug={campaign.slug} 
@@ -140,15 +140,15 @@ export default async function PublicCampaignPage({
         {/* Benefits */}
         {campaign.benefits && campaign.benefits.length > 0 && (
           <div className="w-full">
-            <div className="bg-white rounded-2xl p-5 shadow-sm border border-[#CBD5E1]">
-              <h3 className="text-xs font-semibold text-[#64748B] uppercase tracking-wider text-center mb-4 font-small">
+            <div className="bg-white rounded-2xl p-4 md:p-5 shadow-sm border border-[#CBD5E1]">
+              <h3 className="text-xs font-semibold text-[#64748B] uppercase tracking-wider text-center mb-3 md:mb-4 font-small">
                 What's included
               </h3>
-              <ul className="space-y-3">
+              <ul className="space-y-2 md:space-y-3">
                 {campaign.benefits.map((b: any) => (
-                  <li key={b.id} className="flex items-start gap-3">
-                    <CheckCircle2 className="h-4 w-4 text-[#FF2A54] shrink-0 mt-0.5" />
-                    <span className="text-sm text-[#0F172A] font-small">{b.text}</span>
+                  <li key={b.id} className="flex items-start gap-2 md:gap-3">
+                    <CheckCircle2 className="h-3 w-3 md:h-4 md:w-4 text-[#FF2A54] shrink-0 mt-0.5" />
+                    <span className="text-xs md:text-sm text-[#0F172A] font-small">{b.text}</span>
                   </li>
                 ))}
               </ul>
@@ -157,7 +157,7 @@ export default async function PublicCampaignPage({
         )}
 
         {/* Footer */}
-        <div className="w-full mt-8 text-center">
+        <div className="w-full mt-6 md:mt-8 text-center">
           <p className="text-xs text-[#94A3B8] font-small">
             Powered by <span className="text-[#FF2A54] font-semibold">Lancr</span>
           </p>

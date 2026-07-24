@@ -45,31 +45,31 @@ export default function Hero() {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 className="text-7xl md:text-9xl font-bold text-[#0F172A] tracking-tight mb-6 font-headline leading-[0.9]">
+        <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-bold text-[#0F172A] tracking-tight mb-6 font-headline leading-[0.9]">
           Build <span className="inline-flex items-center justify-center">
-            <Zap className="w-16 h-16 md:w-20 md:h-20 text-[#FF2A54] mx-1" />
+            <Zap className="w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 text-[#FF2A54] mx-1" />
           </span> hype before<br className="hidden md:block" /> you launch.
         </h1>
         
-        <p className="max-w-2xl mx-auto text-lg md:text-xl text-[#64748B] mb-10 leading-relaxed font-small">
+        <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg lg:text-xl text-[#64748B] mb-8 md:mb-10 leading-relaxed font-small">
           Create referral-driven waitlists for your next product, event, or community. Collect emails, track referrals, and grow your audience before launch day.
         </p>
         
         {/* Pill-style input box like Linktree */}
-        <div className="flex items-center justify-center gap-2 mb-16 max-w-xl mx-auto">
-          <div className="flex-1 flex items-center bg-white rounded-full px-6 py-4 shadow-lg border border-[#CBD5E1]">
-            <span className="text-[#64748B] font-semibold font-small mr-2">lancr.app/</span>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 mb-12 md:mb-16 max-w-xl mx-auto">
+          <div className="flex-1 flex items-center bg-white rounded-full px-4 sm:px-6 py-3 sm:py-4 shadow-lg border border-[#CBD5E1] w-full">
+            <span className="text-[#64748B] font-semibold font-small mr-2 text-sm sm:text-base">lancr.app/</span>
             <input 
               type="text" 
               placeholder="claim your campaign" 
-              className="flex-1 bg-transparent text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none text-base font-small"
+              className="flex-1 bg-transparent text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none text-sm sm:text-base font-small"
             />
           </div>
           <Link 
             href="/register" 
-            className="h-14 px-8 bg-[#FF2A54] hover:bg-[#E62348] text-white font-bold rounded-full transition-all flex items-center justify-center gap-2 whitespace-nowrap shadow-lg font-small"
+            className="h-12 sm:h-14 px-6 sm:px-8 bg-[#FF2A54] hover:bg-[#E62348] text-white font-bold rounded-full transition-all flex items-center justify-center gap-2 whitespace-nowrap shadow-lg font-small text-sm sm:text-base"
           >
-            Get Started <ArrowRight size={18} />
+            Get Started <ArrowRight size={16} className="sm:size-18" />
           </Link>
         </div>
         

@@ -34,31 +34,31 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="py-24 bg-[#0F172A]">
+    <section id="faq" className="py-16 md:py-24 bg-[#0F172A]">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 font-headline">Frequently Asked Questions</h2>
-          <p className="text-lg text-white/90 font-small">
+        <div className="text-center mb-12 md:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 font-headline">Frequently Asked Questions</h2>
+          <p className="text-base sm:text-lg text-white/90 font-small">
             Everything you need to know about Lancr.
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3 md:space-y-4">
           {faqs.map((faq, index) => (
             <div 
               key={index}
-              className={`border rounded-3xl transition-all duration-200 ${
+              className={`border rounded-2xl md:rounded-3xl transition-all duration-200 ${
                 openIndex === index ? 'border-white/30 bg-white/10 shadow-lg' : 'border-white/20 bg-white/5 hover:border-white/30'
               }`}
             >
               <button
-                className="w-full flex items-center justify-between p-6 text-left"
+                className="w-full flex items-center justify-between p-4 md:p-6 text-left"
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
               >
-                <span className="font-bold text-white font-small">{faq.question}</span>
+                <span className="font-bold text-white font-small text-sm md:text-base pr-4">{faq.question}</span>
                 <ChevronDown 
                   className={`text-white/80 transition-transform duration-300 ${openIndex === index ? 'rotate-180 text-white' : ''}`} 
-                  size={20} 
+                  size={18} 
                 />
               </button>
               
@@ -67,7 +67,7 @@ export default function FAQ() {
                   openIndex === index ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'
                 }`}
               >
-                <p className="p-6 pt-0 text-white/90 leading-relaxed font-small">
+                <p className="p-4 md:p-6 pt-0 text-white/90 leading-relaxed font-small text-sm md:text-base">
                   {faq.answer}
                 </p>
               </div>

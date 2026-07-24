@@ -126,22 +126,22 @@ function CountdownCard({ example, index }: { example: typeof examples[0], index:
 
 export default function Examples() {
   return (
-    <section className="py-24 bg-[#0F172A]">
+    <section className="py-16 md:py-24 bg-[#0F172A]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-4">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 gap-4">
           <div className="max-w-2xl">
-            <h2 className="text-5xl md:text-6xl font-bold text-[#E2E8F0] mb-4 font-headline leading-[1.1]">See It In Action</h2>
-            <p className="text-xl text-[#94A3B8] font-body">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#E2E8F0] mb-4 font-headline leading-[1.1]">See It In Action</h2>
+            <p className="text-base sm:text-lg md:text-xl text-[#94A3B8] font-body">
               Check out how others are using Lancr to build massive waitlists before they even write their first line of code.
             </p>
           </div>
-          <button className="text-[#FF2A54] font-bold hover:text-[#E62348] flex items-center gap-1 group whitespace-nowrap font-small">
+          <button className="text-[#FF2A54] font-bold hover:text-[#E62348] flex items-center gap-1 group whitespace-nowrap font-small text-sm sm:text-base">
             View more examples <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
 
         {/* 3 Side-by-Side Live Waitlists */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           {examples.map((example, index) => (
             <CountdownCard key={index} example={example} index={index} />
           ))}
