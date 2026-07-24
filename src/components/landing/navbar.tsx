@@ -33,6 +33,7 @@ export default function Navbar() {
                   src="/lancr_lg.png"
                   alt="Lancr Logo"
                   fill
+                  sizes="64px"
                   className="object-contain"
                 />
               </div>

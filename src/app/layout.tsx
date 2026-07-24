@@ -28,28 +28,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <style dangerouslySetInnerHTML={{
-          __html: `
-            @font-face {
-              font-family: 'Clash Display';
-              src: local('Space Grotesk'), local('Space Grotesk Medium');
-              font-weight: 500 700;
-              font-display: swap;
-            }
-            @font-face {
-              font-family: 'NOHEMI';
-              src: local('Inter'), local('Inter Medium');
-              font-weight: 400 600;
-              font-display: swap;
-            }
-            @font-face {
-              font-family: 'Stack Sans Text';
-              src: local('Inter'), local('Inter Regular');
-              font-weight: 400 500;
-              font-display: swap;
-            }
-          `
-        }} />
       </head>
       <body className="font-body antialiased">
         <PostHogProvider>
