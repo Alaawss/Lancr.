@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { LayoutDashboard, LogOut } from 'lucide-react';
+import { LayoutDashboard } from 'lucide-react';
 import { DashboardNav } from '@/components/dashboard/dashboard-nav';
+import { LogoutButton } from '@/components/dashboard/logout-button';
 import Sticker from '@/components/ui/sticker';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -23,22 +24,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </div>
       
       <aside className="hidden w-64 shrink-0 border-r border-[#CBD5E1] bg-white p-4 md:flex md:flex-col relative z-10">
-        <Link href="/dashboard" className="mb-8 flex items-center gap-3 px-2">
+        <Link href="/" className="mb-8 flex items-center gap-3 px-2">
           <img src="/lancr_lg.png" alt="Lancr" className="h-16 w-auto" />
           <span className="text-2xl font-bold text-[#FF2A54] font-headline">Lancr</span>
         </Link>
         <div className="flex-1"><DashboardNav /></div>
         <div className="mt-auto">
-          <form action="/auth/signout" method="post">
-            <button className="flex items-center gap-2 p-2 w-full text-left hover:bg-[#F8FAFC] rounded-2xl text-[#FF2A54] font-small">
-              <LogOut className="w-4 h-4" /> Log Out
-            </button>
-          </form>
+          <LogoutButton />
         </div>
       </aside>
       
       <div className="sticky top-0 z-10 border-b border-[#CBD5E1] bg-white/95 backdrop-blur md:hidden">
-        <Link href="/dashboard" className="flex items-center gap-2 px-4 py-3">
+        <Link href="/" className="flex items-center gap-2 px-4 py-3">
           <img src="/lancr_lg.png" alt="Lancr" className="h-14 w-auto" />
           <span className="text-xl font-bold text-[#FF2A54] font-headline">Lancr</span>
         </Link>

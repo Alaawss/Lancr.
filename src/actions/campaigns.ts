@@ -86,8 +86,24 @@ export async function createCampaign(data: CreateCampaignInput) {
   const { data: profile } = await supabase.from('users').select('plan').eq('id', user.id).single();
   const isPremium = profile?.plan === 'premium';
   
-  // For free users, enforce 50 signup cap
-  const signupCap = isPremium ? data.signupCap : Math.min(data.signupCap, 50);
+  // For free users, enforce campaign limit (1 campaign max)
+  if (!isPremium) {
+    const { count, error: countError } = await supabase
+      .from('campaigns')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', user.id);
+    
+    if (countError) {
+      throw new Error('Unable to verify your campaign count');
+    }
+    
+    if (count && count >= 1) {
+      throw new Error('Free plan is limited to 1 campaign — upgrade to Premium for unlimited campaigns');
+    }
+  }
+  
+  // For free users, enforce 100 signup cap
+  const signupCap = isPremium ? data.signupCap : Math.min(data.signupCap, 100);
 
   // Insert campaign
   const { data: campaign, error: campaignError } = await supabase
@@ -279,7 +295,7 @@ export async function updateCampaignSettings(id: string, input: { slug: string; 
 
   if (slug !== campaign.slug && !isPremium) throw new Error('A Premium plan is required to change the campaign link.');
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error('Use lowercase letters, numbers, and single hyphens for the campaign link.');
-  if (!isPremium && input.signupCap > 50) throw new Error('Free campaigns are limited to 50 signups.');
+  if (!isPremium && input.signupCap > 100) throw new Error('Free campaigns are limited to 100 signups.');
 
   const { error } = await supabase
     .from('campaigns')

@@ -50,7 +50,7 @@ export default async function CampaignsPage() {
                 <div className="p-6 flex flex-col gap-4">
                   <div className="flex justify-between items-start">
                     <div className="space-y-1">
-                      <h3 className="font-semibold leading-none tracking-tight font-headline">{campaign.name}</h3>
+                      <h3 className="font-semibold leading-none tracking-tight font-small">{campaign.name}</h3>
                       <p className="text-sm text-[#64748B] font-small">{campaign.category}</p>
                     </div>
                     <Badge variant={campaign.status === 'published' ? 'success' : campaign.status === 'ended' ? 'default' : 'warning'} status>

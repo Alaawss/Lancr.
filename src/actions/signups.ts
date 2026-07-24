@@ -73,6 +73,10 @@ export async function joinCampaign(campaignId: string, email: string, referrerCo
     .single();
 
   if (signupError) {
+    // Handle unique constraint violation specifically
+    if (signupError.code === '23505') {
+      throw new Error("You've already joined this waitlist");
+    }
     throw new Error(signupError.message);
   }
 

@@ -24,7 +24,7 @@ export default async function CampaignDetailPage({ params }: { params: Promise<{
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-4 pt-6 md:p-8">
-      <Link href={`/dashboard/campaigns/${id}`} className="inline-flex items-center gap-2 text-sm font-medium text-[#64748B] hover:text-[#FF2A54] font-small"><ArrowLeft className="h-4 w-4" /> Back to campaigns</Link>
+      <Link href="/dashboard/campaigns" className="inline-flex items-center gap-2 text-sm font-medium text-[#64748B] hover:text-[#FF2A54] font-small"><ArrowLeft className="h-4 w-4" /> Back to campaigns</Link>
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <div className="flex items-center gap-3"><h1 className="text-3xl font-medium tracking-tight font-small">{campaign.name}</h1><Badge variant={campaign.status === 'published' ? 'success' : 'warning'} status>{campaign.status === 'published' ? 'Live' : 'Draft'}</Badge></div>

@@ -74,36 +74,37 @@ export default function NewCampaignPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-4 md:p-8 pt-6">
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold tracking-tight">Create Campaign</h2>
-        <p className="text-muted-foreground">Setup your waitlist page in seconds.</p>
+    <div className="mx-auto max-w-2xl space-y-6 p-4 pt-6 md:p-8">
+      <div>
+        <p className="text-sm font-semibold text-[#FF2A54] font-small">Campaigns</p>
+        <h1 className="text-3xl font-bold tracking-tight font-headline">Create Campaign</h1>
+        <p className="mt-1 text-sm text-[#64748B] font-small">Setup your waitlist page in seconds.</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {error && <div className="p-3 text-sm text-red-500 bg-red-50 rounded-md">{error}</div>}
+        {error && <div className="p-3 text-sm text-red-600 bg-red-50 rounded-2xl font-small">{error}</div>}
         
         <div className="space-y-4">
           <div>
-            <label className="text-sm font-medium leading-none">Name</label>
-            <Input required value={name} onChange={handleNameChange} placeholder="e.g. Lancr Beta" className="mt-2" />
+            <label className="text-sm font-medium leading-none font-small">Name</label>
+            <Input required value={name} onChange={handleNameChange} placeholder="e.g. Lancr Beta" className="mt-2 rounded-2xl" />
           </div>
 
           <div>
-            <label className="text-sm font-medium leading-none">Slug</label>
-            <Input required value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="e.g. lancr-beta" className="mt-2" />
+            <label className="text-sm font-medium leading-none font-small">Slug</label>
+            <Input required value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="e.g. lancr-beta" className="mt-2 rounded-2xl" />
           </div>
 
           <div>
-            <label className="text-sm font-medium leading-none">Description</label>
-            <Textarea required value={description} onChange={(e) => setDescription(e.target.value)} placeholder="What are you launching?" className="mt-2" />
+            <label className="text-sm font-medium leading-none font-small">Description</label>
+            <Textarea required value={description} onChange={(e) => setDescription(e.target.value)} placeholder="What are you launching?" className="mt-2 rounded-2xl" />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-medium leading-none">Category</label>
+              <label className="text-sm font-medium leading-none font-small">Category</label>
               <Select value={category} onValueChange={setCategory}>
-                <SelectTrigger className="mt-2">
+                <SelectTrigger className="mt-2 rounded-2xl">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -121,48 +122,48 @@ export default function NewCampaignPage() {
               </Select>
             </div>
             <div>
-              <label className="text-sm font-medium leading-none">Signup Cap (0 for unlimited)</label>
-              <Input type="number" required min="0" value={signupCap} onChange={(e) => setSignupCap(e.target.value)} className="mt-2" />
+              <label className="text-sm font-medium leading-none font-small">Signup Cap (0 for unlimited)</label>
+              <Input type="number" required min="0" value={signupCap} onChange={(e) => setSignupCap(e.target.value)} className="mt-2 rounded-2xl" />
             </div>
           </div>
 
           <div>
-            <label className="text-sm font-medium leading-none">Launch Date</label>
-            <Input type="datetime-local" value={launchDate} onChange={(e) => setLaunchDate(e.target.value)} className="mt-2" />
+            <label className="text-sm font-medium leading-none font-small">Launch Date</label>
+            <Input type="datetime-local" value={launchDate} onChange={(e) => setLaunchDate(e.target.value)} className="mt-2 rounded-2xl" />
           </div>
 
-          <label className="flex items-start gap-3 rounded-lg border p-4 cursor-pointer">
+          <label className="flex items-start gap-3 rounded-2xl border border-[#CBD5E1] p-4 cursor-pointer bg-white">
             <input
               type="checkbox"
               checked={publishImmediately}
               onChange={(event) => setPublishImmediately(event.target.checked)}
-              className="mt-0.5 h-4 w-4 accent-violet-600"
+              className="mt-0.5 h-4 w-4 accent-[#FF2A54]"
             />
             <span>
-              <span className="block text-sm font-medium">Publish when created</span>
-              <span className="block text-sm text-muted-foreground mt-1">Your public campaign link will work immediately. Turn this off to save a private draft.</span>
+              <span className="block text-sm font-medium font-headline">Publish when created</span>
+              <span className="block text-sm text-[#64748B] mt-1 font-small">Your public campaign link will work immediately. Turn this off to save a private draft.</span>
             </span>
           </label>
 
           <div>
-            <label className="text-sm font-medium leading-none mb-2 block">Benefits / Features</label>
+            <label className="text-sm font-medium leading-none mb-2 block font-small">Benefits / Features</label>
             <div className="space-y-2">
               {benefits.map((benefit, index) => (
                 <div key={index} className="flex gap-2">
-                  <Input value={benefit} onChange={(e) => handleBenefitChange(index, e.target.value)} placeholder={`Benefit ${index + 1}`} />
-                  <Button type="button" variant="outline" size="icon" onClick={() => handleRemoveBenefit(index)} disabled={benefits.length === 1}>
+                  <Input value={benefit} onChange={(e) => handleBenefitChange(index, e.target.value)} placeholder={`Benefit ${index + 1}`} className="rounded-2xl" />
+                  <Button type="button" variant="outline" size="icon" onClick={() => handleRemoveBenefit(index)} disabled={benefits.length === 1} className="rounded-2xl">
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
               ))}
             </div>
-            <Button type="button" variant="link" onClick={handleAddBenefit} className="mt-2 px-0">
+            <Button type="button" variant="link" onClick={handleAddBenefit} className="mt-2 px-0 text-[#FF2A54] font-small">
               <Plus className="h-4 w-4 mr-1" /> Add benefit
             </Button>
           </div>
         </div>
 
-        <Button type="submit" className="w-full" disabled={loading}>
+        <Button type="submit" className="w-full bg-[#FF2A54] hover:bg-[#E62348] text-white rounded-2xl font-small" disabled={loading}>
           {loading ? 'Creating...' : 'Create Campaign'}
         </Button>
       </form>

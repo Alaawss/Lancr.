@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toast';
+import { PostHogProvider } from '@/components/shared/posthog-provider';
 import { Special_Gothic_Expanded_One, Red_Rose } from 'next/font/google';
 
 const specialGothic = Special_Gothic_Expanded_One({
@@ -51,8 +52,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         }} />
       </head>
       <body className="font-body antialiased">
-        {children}
-        <Toaster />
+        <PostHogProvider>
+          {children}
+          <Toaster />
+        </PostHogProvider>
       </body>
     </html>
   );
