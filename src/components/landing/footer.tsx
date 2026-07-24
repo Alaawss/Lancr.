@@ -1,17 +1,31 @@
+'use client';
+
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Globe, Share2, Mail } from 'lucide-react';
 
 export default function Footer() {
+  const router = useRouter();
+
   return (
     <footer className="bg-[#0F172A] border-t border-[#334155] pt-6 md:pt-8 pb-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-6 md:mb-8">
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="inline-block mb-3">
+            <button
+              onClick={() => {
+                if (window.location.pathname === '/') {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                  router.push('/');
+                }
+              }}
+              className="inline-block mb-3 cursor-pointer hover:opacity-80 transition-opacity bg-transparent border-0 p-0"
+            >
               <span className="text-xl font-bold text-[#E2E8F0] font-headline">
                 Lancr
               </span>
-            </Link>
+            </button>
             <p className="text-[#94A3B8] mb-4 max-w-xs text-xs font-small">
               Build hype before you launch. Create referral-driven waitlists for your next big idea.
             </p>

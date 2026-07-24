@@ -34,7 +34,7 @@ export default function Pricing() {
               ].map((feature, i) => (
                 <li key={i} className="flex items-center gap-3 text-[#0F172A] font-small text-sm md:text-base">
                   <div className="flex-shrink-0 w-5 h-5 md:w-6 md:h-6 rounded-lg md:rounded-xl bg-[#E2E8F0] flex items-center justify-center">
-                    <Check size={12} className="md:size-14 text-[#FF2A54]" />
+                    <Check size={12} className="text-[#FF2A54]" />
                   </div>
                   {feature}
                 </li>
@@ -75,7 +75,7 @@ export default function Pricing() {
               ].map((feature, i) => (
                 <li key={i} className="flex items-center gap-3 text-[#E2E8F0] font-small text-sm md:text-base">
                   <div className="flex-shrink-0 w-5 h-5 md:w-6 md:h-6 rounded-lg md:rounded-xl bg-[#FF2A54]/20 flex items-center justify-center">
-                    <Check size={12} className="md:size-14 text-[#FF2A54]" />
+                    <Check size={12} className="text-[#FF2A54]" />
                   </div>
                   {feature}
                 </li>

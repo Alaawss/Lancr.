@@ -27,20 +27,22 @@ export default function Navbar() {
         >
           <div className="flex items-center justify-between">
             {/* Logo + Brand Name */}
-            <Link href="/" className="flex items-center gap-3">
-              <div className="relative w-16 h-16">
-                <Image
-                  src="/lancr_lg.png"
-                  alt="Lancr Logo"
-                  fill
-                  sizes="64px"
-                  className="object-contain"
-                />
-              </div>
+            <div 
+              onClick={() => {
+                window.location.href = '/';
+              }}
+              className="flex items-center gap-3 cursor-pointer"
+              style={{ userSelect: 'none' }}
+            >
+              <img 
+                src="/lancr_lg.png" 
+                alt="Lancr Logo" 
+                className="w-16 h-16 object-contain"
+              />
               <span className="text-2xl font-bold text-[#E2E8F0] font-logo">
                 LANCR
               </span>
-            </Link>
+            </div>
 
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-8">

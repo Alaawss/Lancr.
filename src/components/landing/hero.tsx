@@ -6,7 +6,7 @@ import Sticker from '@/components/ui/sticker';
 
 export default function Hero() {
   return (
-    <section className="relative pt-24 pb-16 md:pt-40 md:pb-24 bg-[#E2E8F0] overflow-hidden">
+    <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 bg-[#E2E8F0] overflow-hidden">
       {/* Decorative stickers with spinning animation */}
       <div className="absolute top-20 left-[5%] opacity-60 animate-spin-slow">
         <Sticker size="lg" color="brand-red" rotation={15} />
@@ -69,7 +69,7 @@ export default function Hero() {
             href="/register" 
             className="h-12 sm:h-14 px-6 sm:px-8 bg-[#FF2A54] hover:bg-[#E62348] text-white font-bold rounded-full transition-all flex items-center justify-center gap-2 whitespace-nowrap shadow-lg font-small text-sm sm:text-base"
           >
-            Get Started <ArrowRight size={16} className="sm:size-18" />
+            Get Started <ArrowRight size={16} />
           </Link>
         </div>
         
