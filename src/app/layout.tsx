@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toast';
+import { ErrorBoundary } from '@/components/error-boundary';
 import { PostHogProvider } from '@/components/shared/posthog-provider';
 import { Special_Gothic_Expanded_One, Red_Rose } from 'next/font/google';
 
@@ -30,10 +31,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="font-body antialiased">
-        <PostHogProvider>
-          {children}
-          <Toaster />
-        </PostHogProvider>
+        <ErrorBoundary>
+          <PostHogProvider>
+            {children}
+            <Toaster />
+          </PostHogProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

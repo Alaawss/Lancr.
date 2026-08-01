@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createCampaign } from '@/actions/campaigns';
 import { generateSlug } from '@/lib/utils';
+import { useToast } from '@/components/ui/toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -12,6 +13,7 @@ import { Plus, Trash2 } from 'lucide-react';
 
 export default function NewCampaignPage() {
   const router = useRouter();
+  const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [slugError, setSlugError] = useState('');
@@ -87,6 +89,11 @@ export default function NewCampaignPage() {
       });
 
       if ('error' in result) {
+        toast({
+          type: 'error',
+          title: 'Failed to create campaign',
+          message: result.error,
+        });
         if (result.error?.includes('campaign link') || result.error?.includes('lowercase')) {
           setSlugError(result.error);
         } else {
@@ -95,9 +102,20 @@ export default function NewCampaignPage() {
         return;
       }
 
+      toast({
+        type: 'success',
+        title: 'Campaign created',
+        message: 'Your campaign has been created successfully.',
+      });
       router.push(`/dashboard/campaigns/${result.id}`);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'An unexpected error occurred. Please try again.');
+      const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred. Please try again.';
+      toast({
+        type: 'error',
+        title: 'Something went wrong',
+        message: errorMessage,
+      });
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

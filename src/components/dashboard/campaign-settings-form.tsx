@@ -4,12 +4,14 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AlertTriangle, Crown, Lock, Trash2 } from 'lucide-react';
 import { deleteCampaignConfirmed, updateCampaignSettings } from '@/actions/campaigns';
+import { useToast } from '@/components/ui/toast';
 import { Button } from '@/components/ui/button';
 
 type CampaignSettingsFormProps = { campaignId: string; initialSlug: string; initialSignupCap: number; isPremium: boolean };
 
 export function CampaignSettingsForm({ campaignId, initialSlug, initialSignupCap, isPremium }: CampaignSettingsFormProps) {
   const router = useRouter();
+  const { toast } = useToast();
   const [slug, setSlug] = useState(initialSlug);
   const [signupCap, setSignupCap] = useState(initialSignupCap.toString());
   const [deleteConfirmation, setDeleteConfirmation] = useState('');
@@ -45,6 +47,11 @@ export function CampaignSettingsForm({ campaignId, initialSlug, initialSignupCap
     const result = await updateCampaignSettings(campaignId, { slug, signupCap: Number(signupCap) });
     
     if ('error' in result) {
+      toast({
+        type: 'error',
+        title: 'Failed to save settings',
+        message: result.error ?? 'An error occurred while saving your settings.',
+      });
       if (result.error?.includes('campaign link') || result.error?.includes('lowercase')) {
         setSlugError(result.error ?? null);
       } else {
@@ -54,18 +61,35 @@ export function CampaignSettingsForm({ campaignId, initialSlug, initialSignupCap
       return;
     }
     
+    toast({
+      type: 'success',
+      title: 'Settings saved',
+      message: 'Your campaign settings have been updated.',
+    });
     router.refresh();
     setSaving(false);
   }
 
   async function permanentlyDelete() {
-    setError(null); setDeleting(true);
+    setError(null);
+    setDeleting(true);
     try {
       await deleteCampaignConfirmed(campaignId, deleteConfirmation);
+      toast({
+        type: 'success',
+        title: 'Campaign deleted',
+        message: 'Your campaign has been permanently deleted.',
+      });
       router.replace('/dashboard/campaigns');
       router.refresh();
     } catch (caught: unknown) {
-      setError(caught instanceof Error ? caught.message : 'Unable to delete campaign.');
+      const errorMessage = caught instanceof Error ? caught.message : 'Unable to delete campaign.';
+      toast({
+        type: 'error',
+        title: 'Failed to delete campaign',
+        message: errorMessage,
+      });
+      setError(errorMessage);
       setDeleting(false);
     }
   }
