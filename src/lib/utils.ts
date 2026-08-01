@@ -12,7 +12,11 @@ export function formatNumber(num: number): string {
 }
 
 export function generateSlug(name: string): string {
-  return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')  // Replace non-alphanumeric chars with hyphens
+    .replace(/-+/g, '-')             // Collapse multiple hyphens to single
+    .replace(/^-|-$/g, '');          // Remove leading/trailing hyphens
 }
 
 export function getRelativeTime(date: Date | string): string {

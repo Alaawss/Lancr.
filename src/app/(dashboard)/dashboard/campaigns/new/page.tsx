@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createCampaign } from '@/actions/campaigns';
+import { generateSlug } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -13,21 +14,40 @@ export default function NewCampaignPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [slugError, setSlugError] = useState('');
   
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [slug, setSlug] = useState('');
   const [category, setCategory] = useState('saas');
   const [launchDate, setLaunchDate] = useState('');
-  const [signupCap, setSignupCap] = useState('100');
+  const [signupCap, setSignupCap] = useState('50');
   const [benefits, setBenefits] = useState<string[]>(['']);
   const [publishImmediately, setPublishImmediately] = useState(true);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setName(val);
-    if (!slug || slug === name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')) {
-      setSlug(val.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''));
+    if (!slug || slug === generateSlug(name)) {
+      setSlug(generateSlug(val));
+    }
+  };
+
+  const handleSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    // Auto-format: lowercase, replace invalid chars with hyphens, collapse multiple hyphens
+    const formatted = val
+      .toLowerCase()
+      .replace(/[^a-z0-9-]/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+    setSlug(formatted);
+    
+    // Validate slug format
+    if (formatted && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(formatted)) {
+      setSlugError('Use lowercase letters, numbers, and single hyphens');
+    } else {
+      setSlugError('');
     }
   };
 
@@ -51,10 +71,11 @@ export default function NewCampaignPage() {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setSlugError('');
 
     try {
       const filteredBenefits = benefits.filter(b => b.trim() !== '');
-      const campaign = await createCampaign({
+      const result = await createCampaign({
         name,
         description,
         category,
@@ -65,7 +86,16 @@ export default function NewCampaignPage() {
         status: publishImmediately ? 'published' : 'draft',
       });
 
-      router.push(`/dashboard/campaigns/${campaign.id}`);
+      if ('error' in result) {
+        if (result.error?.includes('campaign link') || result.error?.includes('lowercase')) {
+          setSlugError(result.error);
+        } else {
+          setError(result.error);
+        }
+        return;
+      }
+
+      router.push(`/dashboard/campaigns/${result.id}`);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'An unexpected error occurred. Please try again.');
     } finally {
@@ -92,7 +122,14 @@ export default function NewCampaignPage() {
 
           <div>
             <label className="text-sm font-medium leading-none font-small">Slug</label>
-            <Input required value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="e.g. lancr-beta" className="mt-2 rounded-2xl" />
+            <Input 
+              required 
+              value={slug} 
+              onChange={handleSlugChange} 
+              placeholder="e.g. lancr-beta" 
+              className={`mt-2 rounded-2xl ${slugError ? 'border-red-500' : ''}`} 
+            />
+            {slugError && <p className="mt-1 text-xs text-red-600 font-small">{slugError}</p>}
           </div>
 
           <div>

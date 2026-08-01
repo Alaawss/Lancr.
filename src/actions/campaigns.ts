@@ -55,31 +55,38 @@ function validateCreateCampaignInput(data: CreateCampaignInput) {
   const description = data.description.trim();
   const slug = data.slug.trim().toLowerCase();
 
-  if (!name || !description) throw new Error('Campaign name and description are required.');
+  if (!name || !description) {
+    return { error: 'Campaign name and description are required.' };
+  }
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
-    throw new Error('Use lowercase letters, numbers, and single hyphens for the campaign link.');
+    return { error: 'Use lowercase letters, numbers, and single hyphens for the campaign link.' };
   }
   if (!CAMPAIGN_CATEGORIES.includes(data.category as CampaignCategory)) {
-    throw new Error('Choose a valid campaign category.');
+    return { error: 'Choose a valid campaign category.' };
   }
   if (!Number.isInteger(data.signupCap) || data.signupCap < 1) {
-    throw new Error('Signup cap must be at least 1.');
+    return { error: 'Signup cap must be at least 1.' };
   }
   if (data.status && !['draft', 'published', 'ended'].includes(data.status)) {
-    throw new Error('Choose a valid campaign status.');
+    return { error: 'Choose a valid campaign status.' };
   }
 
   return {
-    name,
-    description,
-    slug,
-    category: data.category as CampaignCategory,
-    benefits: data.benefits.map((benefit) => benefit.trim()).filter(Boolean),
+    data: {
+      name,
+      description,
+      slug,
+      category: data.category as CampaignCategory,
+      benefits: data.benefits.map((benefit) => benefit.trim()).filter(Boolean),
+    }
   };
 }
 
 export async function createCampaign(data: CreateCampaignInput) {
   const validated = validateCreateCampaignInput(data);
+  if ('error' in validated) {
+    return { error: validated.error };
+  }
   const { supabase, user } = await requireAuthenticatedUser();
 
   // Check user plan to set appropriate signup cap
@@ -102,18 +109,18 @@ export async function createCampaign(data: CreateCampaignInput) {
     }
   }
   
-  // For free users, enforce 100 signup cap
-  const signupCap = isPremium ? data.signupCap : Math.min(data.signupCap, 100);
+  // For free users, enforce 50 signup cap
+  const signupCap = isPremium ? data.signupCap : Math.min(data.signupCap, 50);
 
   // Insert campaign
   const { data: campaign, error: campaignError } = await supabase
     .from('campaigns')
     .insert({
       user_id: user.id,
-      name: validated.name,
-      description: validated.description,
-      category: validated.category,
-      slug: validated.slug,
+      name: validated.data.name,
+      description: validated.data.description,
+      category: validated.data.category,
+      slug: validated.data.slug,
       launch_date: data.launchDate,
       signup_cap: signupCap,
       status: data.status ?? 'published',
@@ -130,8 +137,8 @@ export async function createCampaign(data: CreateCampaignInput) {
   }
 
   // Insert benefits
-  if (validated.benefits.length > 0) {
-    const benefitsData = validated.benefits.map((benefit, index) => ({
+  if (validated.data.benefits.length > 0) {
+    const benefitsData = validated.data.benefits.map((benefit, index) => ({
       campaign_id: campaign.id,
       text: benefit,
       sort_order: index,
@@ -286,16 +293,16 @@ export async function updateCampaignSettings(id: string, input: { slug: string; 
     .eq('user_id', user.id)
     .single();
 
-  if (campaignError || !campaign) throw new Error('Campaign not found.');
-  if (!Number.isInteger(input.signupCap) || input.signupCap < 1) throw new Error('Signup cap must be at least 1.');
+  if (campaignError || !campaign) return { error: 'Campaign not found.' };
+  if (!Number.isInteger(input.signupCap) || input.signupCap < 1) return { error: 'Signup cap must be at least 1.' };
 
   const { data: profile } = await supabase.from('users').select('plan').eq('id', user.id).single();
   const isPremium = profile?.plan === 'premium';
   const slug = input.slug.trim().toLowerCase();
 
-  if (slug !== campaign.slug && !isPremium) throw new Error('A Premium plan is required to change the campaign link.');
-  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error('Use lowercase letters, numbers, and single hyphens for the campaign link.');
-  if (!isPremium && input.signupCap > 100) throw new Error('Free campaigns are limited to 100 signups.');
+  if (slug !== campaign.slug && !isPremium) return { error: 'A Premium plan is required to change the campaign link.' };
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) return { error: 'Use lowercase letters, numbers, and single hyphens for the campaign link.' };
+  if (!isPremium && input.signupCap > 50) return { error: 'Free campaigns are limited to 50 signups.' };
 
   const { error } = await supabase
     .from('campaigns')
@@ -303,13 +310,15 @@ export async function updateCampaignSettings(id: string, input: { slug: string; 
     .eq('id', id)
     .eq('user_id', user.id);
 
-  if (error?.code === '23505') throw new Error('That campaign link is already in use.');
-  if (error) throw new Error(formatDatabaseError('Unable to save campaign settings', error));
+  if (error?.code === '23505') return { error: 'That campaign link is already in use.' };
+  if (error) return { error: formatDatabaseError('Unable to save campaign settings', error) };
 
   revalidatePath('/dashboard/campaigns');
   revalidatePath(`/dashboard/campaigns/${id}`);
   revalidatePath(`/c/${campaign.slug}`);
   revalidatePath(`/c/${slug}`);
+  
+  return { success: true };
 }
 
 export async function deleteCampaignConfirmed(id: string, confirmation: string) {
